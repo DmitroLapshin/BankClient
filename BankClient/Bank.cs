@@ -4,7 +4,7 @@ public class Bank
 {
     private void menu()
     {
-        Console.WriteLine("----------Menu----------");
+        Console.WriteLine("--------Menu--------");
         Console.WriteLine("Enter 1 to add client\nEnter 2 to delete client\nEnter 3 to show list of users\nEnter 4 to search one user\nEnter 5 to search group of user\nEnter 6 to change user information");
         Console.WriteLine("----------gigMenu ends----------");
         Console.Write("Choose action: ");
