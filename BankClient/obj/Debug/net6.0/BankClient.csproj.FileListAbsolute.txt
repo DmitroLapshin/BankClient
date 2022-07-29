@@ -1,0 +1,15 @@
+D:\Work\Dima\Универ\C_sharp\BankClient\BankClient\bin\Debug\net6.0\BankClient.exe
+D:\Work\Dima\Универ\C_sharp\BankClient\BankClient\bin\Debug\net6.0\BankClient.deps.json
+D:\Work\Dima\Универ\C_sharp\BankClient\BankClient\bin\Debug\net6.0\BankClient.runtimeconfig.json
+D:\Work\Dima\Универ\C_sharp\BankClient\BankClient\bin\Debug\net6.0\BankClient.dll
+D:\Work\Dima\Универ\C_sharp\BankClient\BankClient\bin\Debug\net6.0\BankClient.pdb
+D:\Work\Dima\Универ\C_sharp\BankClient\BankClient\obj\Debug\net6.0\BankClient.csproj.AssemblyReference.cache
+D:\Work\Dima\Универ\C_sharp\BankClient\BankClient\obj\Debug\net6.0\BankClient.GeneratedMSBuildEditorConfig.editorconfig
+D:\Work\Dima\Универ\C_sharp\BankClient\BankClient\obj\Debug\net6.0\BankClient.AssemblyInfoInputs.cache
+D:\Work\Dima\Универ\C_sharp\BankClient\BankClient\obj\Debug\net6.0\BankClient.AssemblyInfo.cs
+D:\Work\Dima\Универ\C_sharp\BankClient\BankClient\obj\Debug\net6.0\BankClient.csproj.CoreCompileInputs.cache
+D:\Work\Dima\Универ\C_sharp\BankClient\BankClient\obj\Debug\net6.0\BankClient.dll
+D:\Work\Dima\Универ\C_sharp\BankClient\BankClient\obj\Debug\net6.0\refint\BankClient.dll
+D:\Work\Dima\Универ\C_sharp\BankClient\BankClient\obj\Debug\net6.0\BankClient.pdb
+D:\Work\Dima\Универ\C_sharp\BankClient\BankClient\obj\Debug\net6.0\BankClient.genruntimeconfig.cache
+D:\Work\Dima\Универ\C_sharp\BankClient\BankClient\obj\Debug\net6.0\ref\BankClient.dll
