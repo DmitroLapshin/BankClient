@@ -2,63 +2,168 @@
 
 public class Bank
 {
-    private void menu()
+    private List<UserInformation> Users = new List<UserInformation>()
     {
-        Console.WriteLine("--------Menu--------");
-        Console.WriteLine("Enter 1 to add client\nEnter 2 to delete client\nEnter 3 to show list of users\nEnter 4 to search one user\nEnter 5 to search group of user\nEnter 6 to change user information");
-        Console.WriteLine("--------Menu ends--------");
-        Console.Write("Choose action: ");
+        new UserInformation("Dmitry", "Lapshin", "1234")
+            {ID = Guid.NewGuid()},
+        new UserInformation("Dima", "Lapshin", "1234")
+            {ID = Guid.NewGuid()}
+    };
+    /// <summary>
+    /// Get information from user
+    /// </summary>
+    /// <returns>Nothing</returns>
+    public UserInformation GetInformationFromUser()
+    {
+        Console.WriteLine("Firstname: ");
+        var firstName = Console.ReadLine();
+        firstName.Trim();
+        Console.WriteLine("Lastname: ");
+        var lastName = Console.ReadLine();
+        lastName.Trim();
+        Console.WriteLine("PhoneNumber: ");
+        var phoneNumber = Console.ReadLine();
+        phoneNumber.Trim();
+        var saveDataToClass = new UserInformation(firstName, lastName, phoneNumber);
+        return saveDataToClass;
+    }
+    /// <summary>
+    /// Function filters list of users which appropriate to inputUser
+    /// </summary>
+    /// <param name="inputUser">Takes information about client which user input</param>
+    /// <returns>List of users which appropriate to input user</returns>
+    public List<UserInformation> SearchUsersInformation(UserInformation inputUser)
+    {
+        var filterList = Users.Where(listUsers =>
+            (listUsers.FirstName == inputUser.FirstName || inputUser.FirstName == "") &&
+            (listUsers.LastName == inputUser.LastName || inputUser.LastName == "") &&
+            (listUsers.PhoneNumber == inputUser.PhoneNumber || inputUser.PhoneNumber == "")).ToList();
+        return filterList;
     }
 
-    private List<UserInformation> SearchUsersInformation()
+    /// <summary>
+    /// Function saves filterList and call function for print
+    /// </summary>
+    /// <param name="filterList"></param>
+    /// <returns>groupOfUsers</returns>
+    public List<UserInformation> GetAllUsersInformation(List<UserInformation> filterList)
     {
-        Console.WriteLine("Example:Dmitry,Lapshin,0950095521");
-        Console.Write("Fiter: ");
-        var userfilter = Console.ReadLine().Split(',');
-        foreach (var param in userfilter)
+        var groupOfUsers = filterList;
+        
+        if (groupOfUsers != null)
         {
-            param.Trim();
+            
+            ShowListOfUsers(groupOfUsers);
         }
 
-        if (userfilter[0] == "" && userfilter.Length == 1)
-        {
-            ShowAllUsers();
-        }
-        var filterlist = Users.Where(x => x.FirstName == userfilter[0] || x.LastName == userfilter[0] || x.Phonenumber== userfilter[0] || x.ID.ToString() == userfilter[0]).ToList();
-        for (int i = 0; i < userfilter.Length; i++)
-        {
-            filterlist = filterlist.Where(x => x.FirstName == userfilter[i] || x.LastName == userfilter[i] || x.Phonenumber == userfilter[i] ||  x.ID.ToString() == userfilter[0]).ToList();
-        }
-
-        return filterlist;
+        return groupOfUsers;
+        
     }
 
-    public void GetAllUsersInformation(List<UserInformation> filterlist)
+    /// <summary>
+    /// Gets one user
+    /// </summary>
+    /// <param name="filterList">Takes <see cref="UserInformation"/> list which contains all user information</param>
+    /// <returns>Nothing</returns>
+
+    public UserInformation GetOneUserInformation(List<UserInformation> filterList)
     {
-        if (filterlist.Count == 0)
+        if (filterList != null)
         {
-            Console.WriteLine("Nobody was found");
+            var oneUserInformation = filterList[0];
+            ShowOneUser(oneUserInformation);
+            return oneUserInformation;
+        }
+        else
+        {
+            return null;
+        }
+
+    }
+    /// <summary>
+    /// Search user by ID
+    /// </summary>
+    /// <returns>Return user or null</returns>
+    public UserInformation GetUserByID()
+    {
+        string id = Console.ReadLine();
+        
+        foreach (var user in Users)
+        {
+            if (user.ID.ToString() == id)
+            {
+                ShowOneUser(user);
+                return user;
+            }
+        }
+
+        return null;
+    }
+
+    /// <summary>
+    /// Change user information
+    /// </summary>
+    /// <param name="inputUsers">Takes <see cref="UserInformation"/> object which has all user information</param>
+    /// <returns>Nothing</returns>
+
+    public void ChangeUserInfomation(List<UserInformation> inputUsers)
+    {
+        if (Users != null)
+        {
             return;
         }
-        Console.WriteLine($"There was(were) found {filterlist.Count} users:");
-        foreach (var user in filterlist)
+
+        for (int i = 0; i < Users.Count; i++)
         {
-            Console.WriteLine(
-                $"Firstname: {user.FirstName}, LastName: {user.LastName}, Phonenumber: {user.Phonenumber}, userID: {user.ID}");
+            for (int j = 0; j < inputUsers.Count; j++)
+            {
+                if (Users[i].ID.ToString() == inputUsers[j].ID.ToString())
+                {
+                    var changedUser = GetInformationFromUser();
+                    changedUser.ID = new Guid();
+                    Users[i] = changedUser;
+                }
+
+            }
         }
     }
 
-    public void GetOneUserInformation(List<UserInformation> filterlist)
+    /// <summary>
+    /// Add new user in the list
+    /// </summary>
+    /// <returns>Nothing</returns>
+
+    public void AddUserInformation()
     {
-        if (filterlist.Count == 0)
+        var newUser = GetInformationFromUser();
+        newUser.ID = Guid.NewGuid();
+        Users.Add(newUser);
+    }
+
+    /// <summary>
+    /// Delete user in the list
+    /// </summary>
+    /// <returns>Nothing</returns>
+
+    public void DeleteUserInformation(List<UserInformation> filterList)
+    {
+        if (filterList == null)
         {
-            Console.WriteLine("Nobody was found");
             return;
         }
-        Console.WriteLine($"Firstname: {filterlist[0].FirstName}, LastName: {filterlist[0].LastName}, Phonenumber: {filterlist[0].Phonenumber}, userID: {filterlist[0].ID}");
+
+        foreach (var user in filterList)
+        {
+            Users.RemoveAll(x => x.ID == user.ID);
+        }
     }
 
-    public void ShowAllUsers()
+    /// <summary>
+    /// Function prints list of users
+    /// </summary>
+    /// <returns>Nothing</returns>
+
+    public void PrintAllUsers()
     {
         if (Users != null)
         {
@@ -66,8 +171,8 @@ public class Bank
             foreach (var user in Users)
             {
                 Console.WriteLine(
-                    $"User {i}: Firstname: {user.FirstName}, LastName: {user.LastName}, Phonenumber: {user.Phonenumber}, userID: {user.ID}");
-                    i++;
+                    $"User {i}: Firstname: {user.FirstName}, LastName: {user.LastName}, PhoneNumber: {user.PhoneNumber}, userID: {user.ID}");
+                i++;
             }
         }
         else
@@ -75,92 +180,26 @@ public class Bank
             Console.WriteLine("There are not users in the list");
         }
     }
-    public void ChangeUserInfomation()
-    {
-        Console.Write("Enter userID: ");
-        var id = Console.ReadLine().Trim();
-        bool flag = false;
-        foreach (var user in Users)
-        {
-            if (user.ID.ToString() == id)
-            {
-                flag = true;
-                Console.Write("Firstname: ");
-                user.FirstName = Console.ReadLine();
-                Console.Write("Lastname: ");
-                user.LastName = Console.ReadLine();
-                Console.Write("Phonenumber: ");
-                user.Phonenumber = Console.ReadLine();
-                Console.WriteLine("The client was changed");
-                break;
-            }
-        }
 
-        if (flag == false)
-            Console.WriteLine("User wasn't found");
+    private void ShowOneUser(UserInformation oneUser)
+    {
+        Console.WriteLine(
+            $" Firstname: {oneUser.FirstName}, LastName: {oneUser.LastName}, PhoneNumber: {oneUser.PhoneNumber}, userID: {oneUser.ID}");
     }
-
-    public void AddUserInformation()
+    /// <summary>
+    /// Show "filterList" for method GetAllUserInformation <see cref="GetAllUsersInformation"/>
+    /// </summary>
+    private void ShowListOfUsers(List<UserInformation> listOfUsers)
     {
-        Users.Add(new UserInformation());
-    }
-
-    public void DeleteUserInformation(List<UserInformation> filterlist)
-    {
-        if (filterlist.Count == 0)
+        foreach (var user in listOfUsers)
         {
-            Console.WriteLine("Nobody was found");
-            return;
-        }
-        foreach (var user in filterlist)
-        {
-            Users.RemoveAll(x => x.ID == user.ID);
-        }
-        Console.WriteLine("The client was deleted");
-    }
-
-    public void Chooseaction()
-    {
-        // var person = new Bank();
-        Users.Add(new UserInformation("Dmitry", "Lapshin", "0950095521"));
-        Users.Add(new UserInformation("Dmitry", "Lapshin", "0955735689"));
-        Users.Add(new UserInformation("Testname", "Testsurname", "Testnumber"));
-        menu();
-        var choseeaction = Console.ReadLine().ToUpper();
-        while (true)
-        {
-            
-            switch (choseeaction)
-            {
-                case "1":
-                    AddUserInformation();
-                    break;
-                case "2":
-                    DeleteUserInformation(SearchUsersInformation());
-                    break;
-                case "3":
-                    ShowAllUsers();
-                    break;
-                case "4":
-                    GetOneUserInformation(SearchUsersInformation());
-                    break;
-                case "5":
-                    GetAllUsersInformation(SearchUsersInformation());
-                    break;
-                case "6":
-                    ChangeUserInfomation();
-                    break;
-                case "EXIT":
-                    Console.WriteLine("Program is finished");
-                    return;
-                default:
-                    Console.WriteLine("The input is incorrect, Try again");
-                    break;
-            }
-            menu();
-            choseeaction = Console.ReadLine().ToUpper();
+            Console.WriteLine(
+                $" Firstname: {user.FirstName}, LastName: {user.LastName}, PhoneNumber: {user.PhoneNumber}, userID: {user.ID}");
+         
         }
     }
-    private List<UserInformation> Users = new ();
+
 }
+
+//     
  
