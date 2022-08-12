@@ -1,4 +1,8 @@
-﻿namespace BankClient;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace BankClient;
 
 public class Bank
 {
