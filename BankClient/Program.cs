@@ -3,25 +3,26 @@
 using System;
 using BankClient;
 
-var _bank = new Bank();
-var _userInformation = new UserInformation();
+var bank = new Bank();
+var userInformation = new UserInformation();
 Console.WriteLine("Add User");
-_bank.AddUserInformation();
-_bank.PrintAllUsers();
+bank.AddUserInformation();
+//bank.PrintAllUsers();
 
 Console.WriteLine("Get information about one User");
-_bank.GetOneUserInformation(_userInformation.GetInformationFromUser());
+bank.GetOneUserInformation(userInformation.GetInformationFromUser());
 
 Console.WriteLine("Get information about Users");
-_bank.GetAllUsersInformation(_userInformation.GetInformationFromUser());
+bank.GetAllUsersInformation(userInformation.GetInformationFromUser());
 
 Console.WriteLine("Search user by ID");
-_bank.GetUserById();
+bank.GetUserById();
 
 Console.WriteLine("Delete User, Enter Id");
-_bank.DeleteUserInformation();
-_bank.PrintAllUsers();
+bank.DeleteUserInformation();
+//bank.PrintAllUsers();
 
 Console.WriteLine("Change user, Enter just Id");
-_bank.ChangeUserInformation();
-_bank.PrintAllUsers();
+bank.ChangeUserInformation();
+//// bank.PrintAllUsers();
+
