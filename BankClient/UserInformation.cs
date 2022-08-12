@@ -1,4 +1,6 @@
-﻿namespace BankClient;
+﻿using System;
+
+namespace BankClient;
 
 public class UserInformation
 {
