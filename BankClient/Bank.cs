@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace BankClient;
-
 public class Bank
 {
     public Bank()
@@ -13,25 +12,6 @@ public class Bank
     }
 
     private List<UserInformation> Users = new List<UserInformation>();
-
-    /// <summary>
-    /// Get information from user
-    /// </summary>
-    /// <returns>Nothing</returns>
-   
-    /// <summary>
-    /// Function filters list of users which appropriate to inputUser
-    /// </summary>
-    /// <param name="inputUser">Takes information about client which user input</param>
-    /// <returns>List of users which appropriate to input user</returns>
-    private List<UserInformation> SearchUsersInformation(UserInformation inputUser)
-    {  
-        var filterList = Users.Where(listUsers =>
-            (listUsers.FirstName == inputUser.FirstName || string.IsNullOrEmpty(inputUser.FirstName)) &&
-            (listUsers.LastName == inputUser.LastName || string.IsNullOrEmpty(inputUser.LastName)) &&
-            (listUsers.PhoneNumber == inputUser.PhoneNumber || string.IsNullOrEmpty(inputUser.PhoneNumber))).ToList();
-        return filterList;
-    }
 
     /// <summary>
     /// Function saves filterList and call function for print
@@ -48,7 +28,7 @@ public class Bank
         {
             return null;
         }
-        // ShowListOfUsers(filterList);
+        
         return filterList;
     }
 
@@ -57,7 +37,7 @@ public class Bank
     /// </summary>
     /// <param name="inputUser">Takes <see cref="UserInformation"/> object for filter</param>
     /// <returns>Nothing</returns>
-    public UserInformation GetOneUserInformation(UserInformation inputUser)
+    public UserInformation GetUserInformation(UserInformation inputUser)
     {
         var filterList = Users.Where(listUsers =>
             (listUsers.FirstName == inputUser.FirstName || string.IsNullOrEmpty(inputUser.FirstName)) &&
@@ -78,10 +58,9 @@ public class Bank
     /// </summary>
     /// <returns>Return user or null</returns>
     /// 
-    public UserInformation GetUserById()
+    public UserInformation GetUserById(Guid id)
     {
-        string id = Console.ReadLine();
-        var result = Users.FirstOrDefault(x => x.Id.ToString() == id);
+        var result = Users.FirstOrDefault(x => x.Id.ToString() == id.ToString());
         if (result != null)
         {
             result.Print();
@@ -93,17 +72,15 @@ public class Bank
     /// <summary>
     /// Change user information
     /// </summary>
-    /// <param name="inputUser">Takes <see cref="UserInformation"/> object which has all user information</param>
+    /// <param name="id">Takes <see cref="UserInformation"/> object which has all user information</param>
     /// <returns>Nothing</returns>
-    public void ChangeUserInformation()
+    public void ChangeUserInformation(Guid id)
     {
-        var id = Console.ReadLine().Trim();
-        var changedUser = new UserInformation();
         for (var i = 0; i < Users.Count; i++)
         { 
-            if (Users[i].Id.ToString() == id) 
+            if (Users[i].Id.ToString() == id.ToString()) 
             {  
-                changedUser = changedUser.GetInformationFromUser();
+                var changedUser = UserInterface.GetInformationFromUser();
                 Users[i] = changedUser;
             }
         }
@@ -115,9 +92,7 @@ public class Bank
     /// <returns>Nothing</returns>
     public void AddUserInformation()
     {
-        var newUser = new UserInformation();
-        newUser = newUser.GetInformationFromUser();
-        newUser.Id = Guid.NewGuid();
+        var newUser = UserInterface.GetInformationFromUser();
         Users.Add(newUser);
     }
 
@@ -125,12 +100,11 @@ public class Bank
     /// Delete user in the list
     /// </summary>
     /// <returns>Nothing</returns>
-    public void DeleteUserInformation()
+    public void DeleteUserInformation(Guid id)
     {
-        var id = Console.ReadLine().Trim();
-        if (string.IsNullOrEmpty(id) == false)
+        if (string.IsNullOrEmpty(id.ToString()) == false)
         {
-            Users.Remove(Users.Find(x => x.Id.ToString() == id));
+            Users.Remove(Users.Find(x => x.Id.ToString() == id.ToString()));
         }
         
     }

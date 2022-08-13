@@ -13,16 +13,15 @@ public static class UserInterface
         Console.WriteLine("PhoneNumber: ");
         var phoneNumber = Console.ReadLine();
         phoneNumber = phoneNumber.Trim();
-        var userInformation = new UserInformation(firstName, lastName, phoneNumber);
-        return userInformation;
+        var saveDataToClass = new UserInformation(firstName, lastName, phoneNumber);
+        return saveDataToClass;
     }
 
     public static Guid UserEnterId()
     {
         Console.WriteLine("Enter Id: ");
         var id = Console.ReadLine();
-        Guid.TryParse(id, out var guidId);
-        return guidId;
+        return Guid.Parse(id);
     }
     
     
