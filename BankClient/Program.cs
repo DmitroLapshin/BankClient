@@ -1,28 +1,25 @@
-﻿// See https://aka.ms/new-console-template for more information
-
+﻿
 using System;
 using BankClient;
 
 var bank = new Bank();
-var userInformation = new UserInformation();
+
 Console.WriteLine("Add User");
 bank.AddUserInformation();
-//bank.PrintAllUsers();
 
 Console.WriteLine("Get information about one User");
-bank.GetOneUserInformation(userInformation.GetInformationFromUser());
+bank.GetUserInformation(UserInterface.GetInformationFromUser());
 
 Console.WriteLine("Get information about Users");
-bank.GetAllUsersInformation(userInformation.GetInformationFromUser());
+bank.GetAllUsersInformation(UserInterface.GetInformationFromUser());
 
 Console.WriteLine("Search user by ID");
-bank.GetUserById();
+bank.GetUserById(UserInterface.UserEnterId());
 
 Console.WriteLine("Delete User, Enter Id");
-bank.DeleteUserInformation();
-//bank.PrintAllUsers();
+bank.DeleteUserInformation(UserInterface.UserEnterId());
 
 Console.WriteLine("Change user, Enter just Id");
-bank.ChangeUserInformation();
-//// bank.PrintAllUsers();
+bank.ChangeUserInformation(UserInterface.UserEnterId());
+
 

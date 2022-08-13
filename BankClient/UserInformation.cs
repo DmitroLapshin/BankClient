@@ -4,12 +4,6 @@ namespace BankClient;
 
 public class UserInformation
 {
-
-    public UserInformation()
-    {
-        
-    }
-
     public UserInformation(string firstName, string lastName, string phoneNumber)
     {
         FirstName = firstName;
@@ -26,18 +20,5 @@ public class UserInformation
         Console.WriteLine(
             $" Firstname: {FirstName}, LastName: {LastName}, PhoneNumber: {PhoneNumber}, userID: {Id}");
     }
-    public UserInformation GetInformationFromUser()
-    {
-        Console.WriteLine("Firstname: ");
-        var firstName = Console.ReadLine();
-        firstName = firstName.Trim();
-        Console.WriteLine("Lastname: ");
-        var lastName = Console.ReadLine();
-        lastName = lastName.Trim();
-        Console.WriteLine("PhoneNumber: ");
-        var phoneNumber = Console.ReadLine();
-        phoneNumber = phoneNumber.Trim();
-        var saveDataToClass = new UserInformation(firstName, lastName, phoneNumber);
-        return saveDataToClass;
-    }
+  
 }
