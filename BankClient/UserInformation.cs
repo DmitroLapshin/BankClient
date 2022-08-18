@@ -6,7 +6,7 @@ public class UserInformation
 {
     public UserInformation()
     {
-        
+        Id = Guid.NewGuid();
     }
     public UserInformation(string firstName, string lastName, string phoneNumber)
     {
@@ -19,10 +19,6 @@ public class UserInformation
     public string LastName { get; set; }
     public string PhoneNumber { get; set; }
     public Guid Id { get; set; }
-    public void Print()
-    {
-        Console.WriteLine(
-            $" Firstname: {FirstName}, LastName: {LastName}, PhoneNumber: {PhoneNumber}, userID: {Id}");
-    }
+ 
   
 }
