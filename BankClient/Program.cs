@@ -5,10 +5,10 @@ using BankClient;
 var bank = new Bank();
 
 Console.WriteLine("Add User");
-bank.AddUserInformation();
+bank.AddUserInformation(new UserInformation());
 
 Console.WriteLine("Get information about one User");
-bank.GetUserInformation(UserInterface.GetInformationFromUser());
+bank.GetFirstUserInformation(UserInterface.GetInformationFromUser());
 
 Console.WriteLine("Get information about Users");
 bank.GetAllUsersInformation(UserInterface.GetInformationFromUser());

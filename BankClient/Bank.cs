@@ -24,11 +24,6 @@ public class Bank
             (listUsers.FirstName == inputUser.FirstName || string.IsNullOrEmpty(inputUser.FirstName)) &&
             (listUsers.LastName == inputUser.LastName || string.IsNullOrEmpty(inputUser.LastName)) &&
             (listUsers.PhoneNumber == inputUser.PhoneNumber || string.IsNullOrEmpty(inputUser.PhoneNumber))).ToList();
-        if (filterList.Count == 0)
-        {
-            return null;
-        }
-        
         return filterList;
     }
 
@@ -37,20 +32,14 @@ public class Bank
     /// </summary>
     /// <param name="inputUser">Takes <see cref="UserInformation"/> object for filter</param>
     /// <returns>Nothing</returns>
-    public UserInformation GetUserInformation(UserInformation inputUser)
+    public UserInformation GetFirstUserInformation(UserInformation inputUser)
     {
-        var filterList = Users.Where(listUsers =>
+        var firstMatchedUserInformation= Users.FirstOrDefault(listUsers =>
             (listUsers.FirstName == inputUser.FirstName || string.IsNullOrEmpty(inputUser.FirstName)) &&
             (listUsers.LastName == inputUser.LastName || string.IsNullOrEmpty(inputUser.LastName)) &&
-            (listUsers.PhoneNumber == inputUser.PhoneNumber || string.IsNullOrEmpty(inputUser.PhoneNumber))).ToList();
-        
-        if (filterList.Count != 0)
-        {
-            var oneUserInformation = filterList[0];
-            oneUserInformation.Print();
-            return oneUserInformation;
-        }
-        return null;
+            (listUsers.PhoneNumber == inputUser.PhoneNumber || string.IsNullOrEmpty(inputUser.PhoneNumber)));
+            
+        return firstMatchedUserInformation;
 
     }
     /// <summary>
@@ -61,11 +50,6 @@ public class Bank
     public UserInformation GetUserById(Guid id)
     {
         var result = Users.FirstOrDefault(x => x.Id.ToString() == id.ToString());
-        if (result != null)
-        {
-            result.Print();
-        }
-    
         return result;
     }
 
@@ -76,24 +60,21 @@ public class Bank
     /// <returns>Nothing</returns>
     public void ChangeUserInformation(Guid id)
     {
-        for (var i = 0; i < Users.Count; i++)
-        { 
-            if (Users[i].Id.ToString() == id.ToString()) 
-            {  
-                var changedUser = UserInterface.GetInformationFromUser();
-                Users[i] = changedUser;
-            }
-        }
+        var result = Users.FirstOrDefault(x => x.Id.ToString() == id.ToString());
+        var indexOfList = Users.FindIndex(x => x.Id == id);
+        Users[indexOfList] = UserInterface.GetInformationFromUser();
+   
     }
 
     /// <summary>
     /// Add new user in the list
     /// </summary>
     /// <returns>Nothing</returns>
-    public void AddUserInformation()
+    public UserInformation AddUserInformation(UserInformation newUser)
     {
-        var newUser = UserInterface.GetInformationFromUser();
+        newUser = UserInterface.GetInformationFromUser();
         Users.Add(newUser);
+        return newUser;
     }
 
     /// <summary>
@@ -104,7 +85,7 @@ public class Bank
     {
         if (string.IsNullOrEmpty(id.ToString()) == false)
         {
-            Users.Remove(Users.Find(x => x.Id.ToString() == id.ToString()));
+            Users.Remove(Users.Find(x => x.Id == id));
         }
         
     }

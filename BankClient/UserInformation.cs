@@ -4,6 +4,10 @@ namespace BankClient;
 
 public class UserInformation
 {
+    public UserInformation()
+    {
+        
+    }
     public UserInformation(string firstName, string lastName, string phoneNumber)
     {
         FirstName = firstName;
