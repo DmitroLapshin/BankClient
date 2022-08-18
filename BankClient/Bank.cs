@@ -89,7 +89,40 @@ public class Bank
         }
         
     }
-
+    /// <summary>
+    /// Function prints list of users
+    /// </summary>
+    /// <returns>Nothing</returns>
+    public void PrintAllUsers()
+    {
+        if (Users != null)
+        {
+            int i = 1;
+            foreach (var user in Users)
+            {
+                Console.WriteLine(
+                    $"User {i}: Firstname: {user.FirstName}, LastName: {user.LastName}, PhoneNumber: {user.PhoneNumber}, userID: {user.Id}");
+                i++;
+            }
+        }
+        else
+        {
+            Console.WriteLine("There are not users in the list");
+        }
+    }
+    
+    /// <summary>
+    /// Show "filterList" for method GetAllUserInformation <see cref="GetAllUsersInformation"/>
+    /// </summary>
+    private void ShowListOfUsers(List<UserInformation> listOfUsers)
+    {
+        foreach (var user in listOfUsers)
+        {
+            Console.WriteLine(
+                $" Firstname: {user.FirstName}, LastName: {user.LastName}, PhoneNumber: {user.PhoneNumber}, userID: {user.Id}");
+         
+        }
+    }
   
 
 }
