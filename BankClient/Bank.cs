@@ -62,15 +62,13 @@ public class Bank
     /// <returns>Nothing</returns>
     public void ChangeUserInformation(UserInformation inputUser)
     {
-        var firstMatchedUserInformation = Users.FirstOrDefault(listUsers =>
-            (listUsers.FirstName == inputUser.FirstName || string.IsNullOrEmpty(inputUser.FirstName)) &&
-            (listUsers.LastName == inputUser.LastName || string.IsNullOrEmpty(inputUser.LastName)) &&
-            (listUsers.PhoneNumber == inputUser.PhoneNumber || string.IsNullOrEmpty(inputUser.PhoneNumber)));
-        var indexOfList = Users.FindIndex(listUsers =>
-            (listUsers.FirstName == inputUser.FirstName || string.IsNullOrEmpty(inputUser.FirstName)) &&
-            (listUsers.LastName == inputUser.LastName || string.IsNullOrEmpty(inputUser.LastName)) &&
-            (listUsers.PhoneNumber == inputUser.PhoneNumber || string.IsNullOrEmpty(inputUser.PhoneNumber)));
-        Users[indexOfList] = new UserInformation(Console.ReadLine(),Console.ReadLine(),Console.ReadLine());
+        var userInformation = GetUserById(inputUser.Id);
+        if (userInformation != null)
+        {
+          userInformation.FirstName = inputUser.FirstName;
+          userInformation.LastName= inputUser.LastName;
+          userInformation.PhoneNumber= inputUser.PhoneNumber;
+        }
 
     }
 
