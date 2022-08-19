@@ -1,28 +1,24 @@
-﻿namespace BankClient;
+﻿using System;
+
+namespace BankClient;
 
 public class UserInformation
 {
     public UserInformation()
     {
-        Console.WriteLine("Firstname: ");
-        FirstName = Console.ReadLine();
-        Console.WriteLine("Lastname: ");
-        LastName = Console.ReadLine();
-        Console.WriteLine("Phonenumber: ");
-        Phonenumber = Console.ReadLine();
-        ID = Guid.NewGuid();
-        Console.WriteLine("The client was added");
+        Id = Guid.NewGuid();
     }
-
-    public UserInformation(string firstName, string lastName, string phonenumber)
+    public UserInformation(string firstName, string lastName, string phoneNumber)
     {
         FirstName = firstName;
         LastName = lastName;
-        Phonenumber = phonenumber;
-        ID = Guid.NewGuid();
+        PhoneNumber = phoneNumber;
+        Id = Guid.NewGuid();
     }
     public string FirstName { get; set; }
     public string LastName { get; set; }
-    public string Phonenumber { get; set; }
-    public Guid ID { get; set; }
+    public string PhoneNumber { get; set; }
+    public Guid Id { get; set; }
+ 
+  
 }
