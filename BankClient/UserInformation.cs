@@ -15,10 +15,16 @@ public class UserInformation
         PhoneNumber = phoneNumber;
         Id = Guid.NewGuid();
     }
+
+    public UserInformation (string firstName, string lastName, string phoneNumber, Guid id)
+    {
+        FirstName = firstName;
+        LastName = lastName;
+        PhoneNumber = phoneNumber;
+        Id = id;
+    }
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public string PhoneNumber { get; set; }
     public Guid Id { get; set; }
- 
-  
 }

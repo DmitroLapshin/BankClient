@@ -20,6 +20,7 @@ Console.WriteLine("Delete User, Enter Id");
 bank.DeleteUserInformation(UserInterface.UserEnterId());
 
 Console.WriteLine("Change user, Enter just Id");
-bank.ChangeUserInformation(UserInterface.GetInformationFromUser());
+bank.ChangeUserInformation(UserInterface.GetInformationFromUserWithId());
+
 
 
