@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
+﻿
 namespace BankClient;
 
 public class Bank
 {
     public Bank()
     {
-        Users.Add(new UserInformation("Dmitry", "Lapshin", "1234"));
         Users.Add(new UserInformation("Dima", "Lapshin", "1234"));
+        Users.Add(new UserInformation("Dmitry", "Lapshin", "1234"));
     }
 
     private List<UserInformation> Users = new List<UserInformation>();
@@ -18,28 +15,34 @@ public class Bank
     /// Function saves filterList and call function for print
     /// </summary>
     /// <param name="inputUser">Takes <see cref="UserInformation"/> object for filter</param>
-    /// <returns>groupOfUsers</returns>
+    /// <returns>Group of users which appropriate to all requirements</returns>
     public List<UserInformation> GetAllUsersInformation(UserInformation inputUser)
     {
         var filterList = Users.Where(listUsers =>
             (listUsers.FirstName == inputUser.FirstName || string.IsNullOrEmpty(inputUser.FirstName)) &&
             (listUsers.LastName == inputUser.LastName || string.IsNullOrEmpty(inputUser.LastName)) &&
             (listUsers.PhoneNumber == inputUser.PhoneNumber || string.IsNullOrEmpty(inputUser.PhoneNumber))).ToList();
+        if (string.IsNullOrEmpty(inputUser.FirstName) && string.IsNullOrEmpty(inputUser.LastName) &&
+            string.IsNullOrEmpty(inputUser.PhoneNumber))
+            return null;
         return filterList;
+
     }
 
     /// <summary>
     /// Gets one user
     /// </summary>
     /// <param name="inputUser">Takes <see cref="UserInformation"/> object for filter</param>
-    /// <returns>Nothing</returns>
+    /// <returns>FirstUser which appropriate to all requirements</returns>
     public UserInformation GetFirstUserInformation(UserInformation inputUser)
     {
         var firstMatchedUserInformation = Users.FirstOrDefault(listUsers =>
             (listUsers.FirstName == inputUser.FirstName || string.IsNullOrEmpty(inputUser.FirstName)) &&
             (listUsers.LastName == inputUser.LastName || string.IsNullOrEmpty(inputUser.LastName)) &&
-            (listUsers.PhoneNumber == inputUser.PhoneNumber || string.IsNullOrEmpty(inputUser.PhoneNumber)));
-
+            (listUsers.PhoneNumber == inputUser.PhoneNumber || string.IsNullOrEmpty(inputUser.PhoneNumber)), null);
+        if (string.IsNullOrEmpty(inputUser.FirstName) && string.IsNullOrEmpty(inputUser.LastName) &&
+            string.IsNullOrEmpty(inputUser.PhoneNumber))
+            return null;
         return firstMatchedUserInformation;
 
     }
@@ -51,7 +54,7 @@ public class Bank
     /// 
     public UserInformation GetUserById(Guid id)
     {
-        var result = Users.FirstOrDefault(x => x.Id.ToString() == id.ToString());
+        var result = Users.FirstOrDefault(x => x.Id.ToString() == id.ToString(), null);
         return result;
     }
 
@@ -62,23 +65,28 @@ public class Bank
     /// <returns>Nothing</returns>
     public void ChangeUserInformation(UserInformation inputUser)
     {
-        var userInformation = GetUserById(inputUser.Id);
-        if (userInformation != null)
+        if (inputUser != null)
         {
-          userInformation.FirstName = inputUser.FirstName;
-          userInformation.LastName= inputUser.LastName;
-          userInformation.PhoneNumber= inputUser.PhoneNumber;
+            var userInformation = Users.Find(x => x.Id == inputUser.Id);
+            if (userInformation != null)
+            {
+                userInformation.FirstName = inputUser.FirstName;
+                userInformation.LastName = inputUser.LastName;
+                userInformation.PhoneNumber = inputUser.PhoneNumber;
+            }    
         }
-
     }
 
     /// <summary>
     /// Add new user in the list
     /// </summary>
-    /// <returns>Nothing</returns>
+    /// <returns>New user</returns>
     public UserInformation AddUserInformation(UserInformation newUser)
     {
-        Users.Add(newUser);
+        if (newUser != null)
+        {
+            Users.Add(newUser);
+        }
         return newUser;
     }
 
