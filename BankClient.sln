@@ -2,7 +2,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankClient", "BankClient\BankClient.csproj", "{0732CC7B-359E-47C6-9CF8-008F46F2AA8A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xUnitTest", "xUnitTest\xUnitTest.csproj", "{DED27577-6B09-4D47-83CA-5446BD3C5EC7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankClient.UnitTests", "BankClient.UnitTests\BankClient.UnitTests.csproj", "{DED27577-6B09-4D47-83CA-5446BD3C5EC7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Program", "Program", "{746A673C-6C12-4A19-ADD5-AFF2E89B3577}"
 EndProject

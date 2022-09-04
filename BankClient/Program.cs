@@ -11,7 +11,7 @@ Console.WriteLine("Get information about one User");
 bank.GetFirstUserInformation(UserInterface.GetInformationFromUser());
 
 Console.WriteLine("Get information about Users");
-bank.GetAllUsersInformation(UserInterface.GetInformationFromUser());
+bank.GetAllUserInformations(UserInterface.GetInformationFromUser());
 
 Console.WriteLine("Search user by ID");
 bank.GetUserById(UserInterface.UserEnterId());

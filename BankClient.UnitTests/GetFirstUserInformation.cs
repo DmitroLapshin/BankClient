@@ -1,6 +1,8 @@
-﻿using BankClient;
+﻿using System.Collections.Generic;
 using FluentAssertions;
 using Xunit;
+
+namespace BankClient.UnitTests;
 
 public class GetFirstUserInformation
 {
@@ -30,5 +32,3 @@ public class GetFirstUserInformation
         new object[] { new UserInformation("", "", "1234") }
     };
 }
-    
-    

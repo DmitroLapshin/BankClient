@@ -16,15 +16,13 @@ public class Bank
     /// </summary>
     /// <param name="inputUser">Takes <see cref="UserInformation"/> object for filter</param>
     /// <returns>Group of users which appropriate to all requirements</returns>
-    public List<UserInformation> GetAllUsersInformation(UserInformation inputUser)
+    public List<UserInformation> GetAllUserInformations(UserInformation inputUser)
     {
         var filterList = Users.Where(listUsers =>
             (listUsers.FirstName == inputUser.FirstName || string.IsNullOrEmpty(inputUser.FirstName)) &&
             (listUsers.LastName == inputUser.LastName || string.IsNullOrEmpty(inputUser.LastName)) &&
             (listUsers.PhoneNumber == inputUser.PhoneNumber || string.IsNullOrEmpty(inputUser.PhoneNumber))).ToList();
-        if (string.IsNullOrEmpty(inputUser.FirstName) && string.IsNullOrEmpty(inputUser.LastName) &&
-            string.IsNullOrEmpty(inputUser.PhoneNumber))
-            return null;
+        
         return filterList;
 
     }
@@ -36,15 +34,19 @@ public class Bank
     /// <returns>FirstUser which appropriate to all requirements</returns>
     public UserInformation GetFirstUserInformation(UserInformation inputUser)
     {
+        if (string.IsNullOrEmpty(inputUser.FirstName) &&
+            string.IsNullOrEmpty(inputUser.LastName) &&
+            string.IsNullOrEmpty(inputUser.PhoneNumber))
+        {
+            return null;
+        }
+        
         var firstMatchedUserInformation = Users.FirstOrDefault(listUsers =>
             (listUsers.FirstName == inputUser.FirstName || string.IsNullOrEmpty(inputUser.FirstName)) &&
             (listUsers.LastName == inputUser.LastName || string.IsNullOrEmpty(inputUser.LastName)) &&
-            (listUsers.PhoneNumber == inputUser.PhoneNumber || string.IsNullOrEmpty(inputUser.PhoneNumber)), null);
-        if (string.IsNullOrEmpty(inputUser.FirstName) && string.IsNullOrEmpty(inputUser.LastName) &&
-            string.IsNullOrEmpty(inputUser.PhoneNumber))
-            return null;
-        return firstMatchedUserInformation;
+            (listUsers.PhoneNumber == inputUser.PhoneNumber || string.IsNullOrEmpty(inputUser.PhoneNumber)));
 
+        return firstMatchedUserInformation;
     }
 
     /// <summary>
@@ -54,7 +56,7 @@ public class Bank
     /// 
     public UserInformation GetUserById(Guid id)
     {
-        var result = Users.FirstOrDefault(x => x.Id.ToString() == id.ToString(), null);
+        var result = Users.FirstOrDefault(x => x.Id.ToString() == id.ToString());
         return result;
     }
 

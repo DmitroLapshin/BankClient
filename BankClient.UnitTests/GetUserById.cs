@@ -1,6 +1,8 @@
-using BankClient;
+using System;
 using FluentAssertions;
 using Xunit;
+
+namespace BankClient.UnitTests;
 
 public class GetUserById
 {
