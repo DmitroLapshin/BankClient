@@ -1,0 +1,220 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>BankClient</title>
+    <link rel="stylesheet" href="~/css/style.css"/>
+</head>
+<body>
+<h2 class = "header">Список пользователей</h2>
+<div class="container">
+    <input type="hidden" id="userId" />
+    <p>
+        <label for="userFirstName">Firstname:</label>
+        <br/>
+        <input class="input" id="userFirstName" />
+    </p>
+    <p>
+        <label for="userLastName">Lastname:</label>
+        <br/>
+        <input class="input" id="userLastName" type="text" />
+    </p>
+    <p>
+        <label for="userPhoneNumber">PhoneNumber:</label>
+        <br/>
+        <input class="input" id="userPhoneNumber"/>
+    </p>
+    <p class="message" id="message"></p>
+    <p>
+        <button id="saveBtn">Сохранить</button>
+        <button id="resetBtn">Сбросить</button>
+        <button id="searchBtn">Поиск</button>
+    </p>
+</div>
+<table class="table" id = "table">
+    <thead><tr><th>№</th><th>Firstname</th><th>Lastname</th><th>PhoneNumber</th><th>Actions</th></tr></thead>
+    <tbody id = "tbody">
+    </tbody>
+</table>
+<script>
+    document.getElementById("message").hidden = true;
+    const message = document.getElementById("message");
+    document.getElementById("saveBtn").addEventListener("click", send);
+    async function send() {
+        if(checkEmptyString() === true){
+            return;
+        }
+        const response = await fetch("api/users", {
+            method: "POST",
+            headers: {"Accept": "application/json", "Content-Type": "application/json"},
+            body: JSON.stringify({
+                firstName: document.getElementById("userFirstName").value,
+                lastName: document.getElementById("userLastName").value,
+                phoneNumber: document.getElementById("userPhoneNumber").value
+
+            })
+        });
+        if (response.ok === true) {
+            const users = await response.json();
+            const rows = document.getElementById("tbody");
+            rows.innerHTML = '';
+            let counter = 0;
+            users.forEach(user => {counter++; rows.append(row(user, counter))});
+        } 
+        else {
+            const error = await response.json();
+            console.log(error.message);
+        }
+    }
+
+    document.getElementById("searchBtn").addEventListener("click", getAllUser);
+    async function getAllUser() {
+        const firstName = document.getElementById("userFirstName").value;
+        const lastName= document.getElementById("userLastName").value;
+        const phoneNumber= document.getElementById("userPhoneNumber").value;
+        const rows = document.getElementById("tbody");
+        if(checkEmptyString() === true){
+            return;
+        }
+        const response = await fetch(`/api/users?firstName=${firstName}&lastName=${lastName}&phoneNumber=${phoneNumber}`, {
+            method: "GET",
+            headers: {"Accept": "application/json" , "Content-Type": "application/json"},
+        
+        });
+        if (response.ok === true)
+        {
+            const users = await response.json();
+            if (users.length === 0){
+                rows.innerHTML = '';
+                message.innerHTML = "Результатов нет";
+                message.hidden = false;
+                return;
+            }
+            rows.innerHTML = '';
+            let counter = 0;
+            users.forEach(user => {counter++; rows.append(row(user, counter))});
+        }
+        else {
+            const error = await response.json();
+            console.log(error.message);
+        }
+
+    }
+
+    async function deleteUser(id) {
+        const response = await fetch("/api/deleteusers", {
+            method: "POST",
+            headers: {"Accept": "application/json", "Content-Type": "application/json"},
+            body: JSON.stringify({
+                firstName: document.getElementById("userFirstName").value,
+                lastName: document.getElementById("userLastName").value,
+                phoneNumber: document.getElementById("userPhoneNumber").value,
+                id: id
+
+            })
+            
+        });
+        if (response.ok === true) {
+            const users = await response.json();
+            const rows = document.getElementById("tbody");
+            rows.innerHTML = '';
+            let counter = 0;
+            users.forEach(user => {counter++; rows.append(row(user, counter))});
+            
+        }
+        else {
+            const error = await response.json();
+            console.log(error.message);
+        }
+    }
+    async function changeUser(id, index) {
+        const response = await fetch(`/api/users`, {
+            method: "PUT",
+            headers: {"Accept": "application/json" , "Content-Type": "application/json"},
+            body: JSON.stringify({
+                firstName: document.getElementById("userFirstName").value,
+                lastName: document.getElementById("userLastName").value,
+                phoneNumber: document.getElementById("userPhoneNumber").value,
+                id: id
+
+            })
+        });
+        if (response.ok === true) {
+            const user = await response.json();
+            const fields = document.querySelector(`tr[data-rowid='${user.id}']`);
+            const field = fields.querySelectorAll("td");
+            field[0].innerText = index;
+            field[1].innerText = user.firstName;
+            field[2].innerText = user.lastName;
+            field[3].innerText = user.phoneNumber;
+            
+        }
+        else {
+            const error = await response.json();
+            console.log(error.message);
+        }
+    }
+   
+
+        document.getElementById("resetBtn").addEventListener("click", reset);
+        function reset() {
+            document.getElementById("userFirstName").value = "";
+            document.getElementById("userLastName").value = "";
+            document.getElementById("userPhoneNumber").value = "";
+        }
+        function checkEmptyString(){
+            const firstName = document.getElementById("userFirstName").value;
+            const lastName= document.getElementById("userLastName").value;
+            const phoneNumber= document.getElementById("userPhoneNumber").value;
+            if (firstName === '' && lastName === '' && phoneNumber === '') {
+                message.innerHTML = "Заполните хотя бы одно поле";
+                message.hidden = false
+                return true;
+            }
+            else{
+                message.hidden = true;
+                return false
+            }
+        }
+        
+        
+        function row(user, index) {
+
+            const tr = document.createElement("tr");
+            tr.setAttribute("data-rowid", user.id);
+            const indexListTd = document.createElement("td");
+            tr.setAttribute("index", index);
+            indexListTd.append(index);
+            tr.append(indexListTd);
+            
+            const firstNameTd = document.createElement("td");
+            firstNameTd.append(user.firstName);
+            tr.append(firstNameTd);
+
+            const lastNameTd = document.createElement("td");
+            lastNameTd.append(user.lastName);
+            tr.append(lastNameTd);
+
+            const phoneNumberTd = document.createElement("td");
+            phoneNumberTd.append(user.phoneNumber);
+            tr.append(phoneNumberTd);
+            
+
+            const linksTd = document.createElement("td");
+
+            const editLink = document.createElement("button");
+            editLink.append("Изменить");
+            editLink.addEventListener("click", async() => await changeUser(user.id, index));
+            linksTd.append(editLink);
+
+            const removeLink = document.createElement("button");
+            removeLink.append("Удалить");
+            removeLink.addEventListener("click", async () => await deleteUser(user.id));
+
+            linksTd.append(removeLink);
+            tr.appendChild(linksTd);
+            return tr;
+        }
+</script>
+</body>
+</html>

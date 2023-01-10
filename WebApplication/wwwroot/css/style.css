@@ -1,0 +1,36 @@
+﻿
+.header {
+    text-align: center;
+}
+.container {
+    text-align: center;
+    font-size: 20px;
+}
+div p {
+    font-size: 20px;
+}
+.data {
+
+}
+.table{
+    width: 100%;
+    margin-top: 50px;
+    justify-content: space-between;
+    text-align: center;
+    font-size: 20pt;
+}
+.input{
+  width: 230px;
+    font-size: 14pt;
+    border-width: 2px;
+    border-color: black;
+}
+.message{
+    color: red;
+}
+td{
+    padding:5px;
+}
+button{
+    margin: 5px;
+}
